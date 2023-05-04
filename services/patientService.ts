@@ -1,6 +1,7 @@
 import patients from "../data/patients";
 import { Patient, NoSsnPatient, NewPatientEntry } from "../types";
 import { v1 as uuid } from "uuid";
+const PatientModel = require("../database/models/patient");
 const getAllPatientsNoSsn = (): NoSsnPatient[] => {
   return patients.map(({ id, name, dateOfBirth, gender, occupation }) => {
     return {
@@ -20,10 +21,15 @@ const createNewPatient = (newPatient: NewPatientEntry): Patient => {
     ...newPatient,
   };
   patients.push(patient);
+  const patientDb = new PatientModel(patient);
+  patientDb.save();
   return patient;
 };
 
 const getAllPatients = (): Patient[] => {
+  PatientModel.find({}).then((patientsDB: any) => {
+    console.log(patientsDB);
+  });
   return patients;
 };
 

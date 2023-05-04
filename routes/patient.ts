@@ -3,9 +3,8 @@ import patientService from "../services/patientService";
 import toNewPatientEntry from "../utils/toNewPatientEntry";
 
 const router = express.Router();
-
 router.get("/", (_req, res) => {
-  res.send(patientService.getAllPatientsNoSsn());
+  res.send(patientService.getAllPatients());
 });
 
 router.post("/", (_req, res) => {
@@ -27,11 +26,9 @@ router.post("/", (_req, res) => {
 
 router.get("/:id", (req, res) => {
   const id = req.params.id;
-
   const patientToFind = patientService.getAllPatients().find((patient) => {
     return patient.id === id;
   });
-
   if (!patientToFind) {
     res.json({ error: "patient not found" });
   }
