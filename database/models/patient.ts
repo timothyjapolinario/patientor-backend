@@ -20,12 +20,12 @@ patientSchema.set("toJSON", {
 });
 
 //this gets called immediatelty after fetching the data from the database
-// patientSchema.set("toObject", {
-//   transform: (_document, returnedObject) => {
-//     returnedObject.id = returnedObject._id.toString();
-//     delete returnedObject._id;
-//     delete returnedObject.__v;
-//   },
-// });
+patientSchema.set("toObject", {
+  transform: (_document, returnedObject) => {
+    returnedObject.id = returnedObject._id.toString();
+    delete returnedObject._id;
+    delete returnedObject.__v;
+  },
+});
 
 module.exports = mongoose.model("Patient", patientSchema);

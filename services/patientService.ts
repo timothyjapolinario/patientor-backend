@@ -13,7 +13,6 @@ const getAllPatientsNoSsn = (): NoSsnPatient[] => {
     };
   });
 };
-
 const createNewPatient = (newPatient: NewPatientEntry): Patient => {
   const id = uuid();
   const patient: Patient = {
@@ -25,12 +24,14 @@ const createNewPatient = (newPatient: NewPatientEntry): Patient => {
   patientDb.save();
   return patient;
 };
-
-const getAllPatients = (): Patient[] => {
-  PatientModel.find({}).then((patientsDB: any) => {
-    console.log(patientsDB);
-  });
-  return patients;
+const getAllPatients = async (): Promise<Patient[]> => {
+  const patientsDb = await PatientModel.find({}).then(
+    (patientsDB: Patient[]) => {
+      console.log(patientsDB);
+      return patientsDB;
+    }
+  );
+  return patients.concat(patientsDb);
 };
 
 export default { getAllPatientsNoSsn, getAllPatients, createNewPatient };
